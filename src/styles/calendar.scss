@@ -1,0 +1,51 @@
+.calendar {
+  width: 720px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  margin: auto;
+
+  & > * {
+    height: 100px;
+    width: 100px;
+    background-color: #eee;
+    border: 1px solid black;
+    margin: 1px 1px 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.5s, background-color 0.5s;
+  }
+
+  @for $maxDaysNum from 28 through 31 {
+    @for $i from 1 through $maxDaysNum {
+      &-#{$maxDaysNum} :nth-child(#{$i})::after {
+        content: "#{$i}";
+      }
+      &-#{$maxDaysNum} :nth-child(n + #{$maxDaysNum + 1}) {
+        display: none;
+      }
+    }
+  }
+  
+  & > *:hover {
+    cursor: pointer;
+    background-color: pink;
+    transform: translate(0, -20px);
+  }
+  
+  $week:
+    "mon" 0 0,
+    "tue" 1 100px,
+    "wed" 2 200px,
+    "thu" 3 300px,
+    "fri" 4 400px,
+    "sat" 5 500px,
+    "sun" 6 600px;
+  
+  @each $day, $num, $size in $week {
+    &-#{$day} :first-child {
+      margin-left: $size + $num;
+    }
+  }
+}
